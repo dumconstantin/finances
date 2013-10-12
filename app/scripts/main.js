@@ -1,5 +1,6 @@
 require.config({
     paths: {
+        socketio: 'http://0.0.0.0:8080/socket.io/socket.io.js',
         jquery: '../bower_components/jquery/jquery',
         bootstrapAffix: '../bower_components/sass-bootstrap/js/affix',
         bootstrapAlert: '../bower_components/sass-bootstrap/js/alert',
@@ -87,9 +88,16 @@ require.config({
     }
 });
 
-require(['app', 'jquery'], function (app, $) {
+require(['app', 'jquery', 'socketio'], function (app, $) {
     'use strict';
     // use app here
     console.log(app);
+
+    var socket = io.connect('http://localhost');
+    socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data' });
+    });
+
     console.log('Running jQuery %s', $().jquery);
 });
